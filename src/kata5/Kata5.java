@@ -5,10 +5,6 @@
  */
 package kata5;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -22,24 +18,13 @@ public class Kata5 {
      */
     public static void main(String[] args) throws SQLException {
         String url = "jdbc:sqlite:Kata5P1.DB";
-        Connection connection = null;
-        connection = DriverManager.getConnection(url);
+        DataBaseInteractor dbi = new DataBaseInteractor(url);
         
-        String sql = "SELECT * FROM PEOPLE";
-        Statement statement = connection.createStatement();
-        ResultSet result = statement.executeQuery(sql);
-        
-        try {
-            while(result.next()) {
-                System.out.println(result.getInt("Id") + "\t" + 
-                        result.getString("Name") + "\t" +
-                        result.getString("Apellidos") + "\t" +
-                        result.getString("Departamento") + "\t");
-            }
-        } catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
-        
+        dbi.createTable("CREATE TABLE IF NOT EXISTS EMAIL (" + 
+                "Id integer PRIMARY KEY AUTOINCREMENT," + 
+                "Mail text NOT NULL); ");
+        dbi.insertInTable("TestText3");
+        dbi.executeQuery("SELECT * FROM EMAIL");
     }
     
 }
