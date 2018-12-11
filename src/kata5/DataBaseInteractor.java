@@ -11,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -37,11 +39,16 @@ public class DataBaseInteractor {
         statement.execute(sql);
     }
     
-    public void insertInTable(String text) throws SQLException {
-        String sqlInsert = "INSERT INTO EMAIL(Mail) VALUES(?)";
-        PreparedStatement preparedStatement = connection.prepareStatement(sqlInsert);
-        preparedStatement.setString(1, text);
-        preparedStatement.execute();
+    public void insertInTable(List<String> list) throws SQLException {
+        Iterator<String> iterator = list.iterator();
+        String text = "";
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO EMAIL(Mail) VALUES(?)");
+        while(iterator.hasNext()) {
+            text = iterator.next();
+            preparedStatement.setString(1, text);
+            preparedStatement.execute();
+        }
+        
     }
     
     public void executeQuery(String query) throws SQLException {

@@ -5,7 +5,10 @@
  */
 package kata5;
 
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import view.MailListReader;
 
 /**
  *
@@ -16,14 +19,16 @@ public class Kata5 {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, IOException {
         String url = "jdbc:sqlite:Kata5P1.DB";
         DataBaseInteractor dbi = new DataBaseInteractor(url);
+        
+        List<String> mailsList = MailListReader.read("email.txt");
         
         dbi.createTable("CREATE TABLE IF NOT EXISTS EMAIL (" + 
                 "Id integer PRIMARY KEY AUTOINCREMENT," + 
                 "Mail text NOT NULL); ");
-        dbi.insertInTable("TestText3");
+        dbi.insertInTable(mailsList);
         dbi.executeQuery("SELECT * FROM EMAIL");
     }
     
